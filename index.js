@@ -39,6 +39,18 @@ server.get("/api/users", (req, res) => {
       });
 });
 
+server.get("/api/users/:id", (req, res) => {
+  const id = req.params.id;
+
+  const user = users.find((e) => e.id == id);
+
+  user
+    ? res.json(user)
+    : res
+        .status(404)
+        .json({ message: "The user with the specified ID does not exist" });
+});
+
 const port = 5000;
 server.listen(port, () =>
   console.log(`\n\n*** api running on port ${port} *** \n\n`)
