@@ -5,7 +5,7 @@ const server = express();
 // middleware
 server.use(express.json());
 
-const users = [
+let users = [
   {
     name: "test",
     bio: "test bio",
@@ -49,6 +49,19 @@ server.get("/api/users/:id", (req, res) => {
     : res
         .status(404)
         .json({ message: "The user with the specified ID does not exist" });
+});
+
+server.delete("/api/users/:id", (req, res) => {
+  const id = Number(req.params.id);
+
+  const user = users.find((e) => e.id == id);
+  users = users.filter((e) => Number(e.id) !== id);
+
+  user
+    ? res.status(200).json(users)
+    : res
+        .status(404)
+        .json({ message: "The user with the specified ID does not exist." });
 });
 
 const port = 5000;
